@@ -4,11 +4,17 @@
 #define WIDTH 10
 #define HEIGHT 20
 
+int speed = 200;
+
 void draw_screen();
+void time_stream();
 
 int main()
 {
-    draw_screen();
+    while(1) {
+        draw_screen();
+        time_stream();
+    }
 }
 
 void draw_screen() {
@@ -33,4 +39,9 @@ void draw_screen() {
     for(i=0; i < WIDTH+2; i++)
         printf("* ");
 
+}
+
+void time_stream() {
+    Sleep(speed);
+    system("cls");
 }
