@@ -9,9 +9,12 @@ typedef struct block {
 } Block;
 
 int type;         //Shape of the block
+int position = 0; //Current position
+int x_pos, y_pos; //Place in the board
 Block piece[2][4];
 
 int speed = 200;
+int board[HEIGHT][WIDTH];
 
 void draw_screen();
 void time_stream();
@@ -32,23 +35,46 @@ void draw_screen() {
 
     int i, j;
 
-    for(i=0; i < WIDTH+2; i++)
-        printf("* ");
-    printf("\n");
+    set_values();
+
+    printf("%c", 218);
+    for(i=0; i < WIDTH*2 + 1; i++)
+        printf("%c", 196);
+    printf("%c\n", 191);
 
     for(i=0; i < HEIGHT; i++) {
         for(j=0; j < WIDTH; j++) {
             if(j == 0)
-                printf("* ");
-            printf("  ");
+                printf("%c ", 179);
+
+            switch(board[i][j]) {
+
+                case 0:
+                    printf("  ");
+                    break;
+
+                case 1:
+                    printf("%c ", 43);
+                    break;
+
+                case 2:
+                    printf("%c ", 254);
+                    break;
+
+                default:
+                    break;
+            }
+
             if(j == WIDTH-1)
-                printf("* ");
+                printf("%c", 179);
         }
         printf("\n");
     }
 
-    for(i=0; i < WIDTH+2; i++)
-        printf("* ");
+    printf("%c", 192);
+    for(i=0; i < WIDTH*2 + 1; i++)
+        printf("%c", 196);
+    printf("%c", 217);
 
 }
 
@@ -63,6 +89,9 @@ void deploy_block() {
 
     srand(time(NULL));
     type = rand() % 7;
+
+    x_pos = 0;
+    y_pos = rand() % (WIDTH-4);
 
     switch(type) {
 
