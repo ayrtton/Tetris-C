@@ -14,6 +14,7 @@ int x_pos, y_pos; //Place in the board
 Block piece[2][4];
 
 int speed = 200;
+int score = 0;
 int board[HEIGHT][WIDTH];
 
 void draw_screen();
@@ -22,6 +23,7 @@ void deploy_block();
 void set_values();
 void key_listener();
 int check_collision();
+void build_ground();
 
 int main()
 {
@@ -273,4 +275,18 @@ int check_collision() {
     }
 
     return 2; //No collision
+}
+
+void build_ground() {
+
+    int i, j;
+
+    for(i=0; i<2; i++) {
+        for(j=0; j<4; j++) {
+            if(piece[i][j].value == 1)
+                board[piece[i][j].x][piece[i][j].y] = 2;
+        }
+    }
+
+    score += 2;
 }
