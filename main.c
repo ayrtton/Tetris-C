@@ -24,6 +24,8 @@ void set_values();
 void key_listener();
 int check_collision();
 void build_ground();
+void spin(int dir);
+int check_spin_collision();
 
 int main()
 {
@@ -234,11 +236,13 @@ void key_listener() {
             break;
 
         case 'q':
-
+            if(!check_spin_collision())
+                spin(-1); //Spin left
             break;
 
         case 'e':
-
+            if(!check_spin_collision())
+                spin(1); //Spin right
             break;
 
         case 'p':
@@ -289,4 +293,32 @@ void build_ground() {
     }
 
     score += 2;
+}
+
+void spin(int dir) {
+
+    int positions;
+
+    if(type < 2)
+        positions = type;
+    else
+        positions = 3;
+
+    position += dir;
+    if(position == positions + 1)
+        position = 0;
+    else {
+        if(position == -1)
+            position = positions;
+    }
+
+}
+
+int check_spin_collision() {
+
+    if((piece[1][1].y == 0 || piece[1][1].y == WIDTH-1) || (type == 1 && (piece[0][1].y == 0 || piece[0][1].y == WIDTH-1)))
+        return 1;
+    else
+        return 0;
+
 }
