@@ -20,6 +20,7 @@ void draw_screen();
 void time_stream();
 void deploy_block();
 void set_values();
+void key_listener();
 
 int main()
 {
@@ -203,3 +204,42 @@ void set_values() {
     }
 }
 
+void key_listener() {
+
+    char ch = '=';
+
+    if(kbhit())
+        ch = tolower(getch());
+
+    switch(ch) {
+        case '=':
+            x_pos++;
+            break;
+
+        case 'a':
+
+            break;
+
+        case 'd':
+
+            break;
+
+        case ' ':
+            speed = 0.1;
+            break;
+
+        case 'q':
+
+            break;
+
+        case 'e':
+
+            break;
+
+        case 'p':
+
+        default:
+            break;
+    }
+
+}
