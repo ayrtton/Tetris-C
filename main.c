@@ -21,6 +21,7 @@ void time_stream();
 void deploy_block();
 void set_values();
 void key_listener();
+int check_collision();
 
 int main()
 {
@@ -217,11 +218,13 @@ void key_listener() {
             break;
 
         case 'a':
-
+            if(check_collision() != -1)
+                y_pos--;
             break;
 
         case 'd':
-
+            if(check_collision() != 1)
+                y_pos++;
             break;
 
         case ' ':
@@ -242,4 +245,32 @@ void key_listener() {
             break;
     }
 
+}
+
+int check_collision() {
+
+    int i, j;
+
+    for(i=0; i<2; i++) {
+        for(j=0; j<4; j++) {
+            if(piece[i][j].value == 1 && (piece[i][j].x == HEIGHT-1 || board[piece[i][j].x+1][piece[i][j].y] == 2))
+                return 0; //Bottom collision*/
+        }
+    }
+
+    for(i=0; i<2; i++) {
+        for(j=0; j<4; j++) {
+            if(piece[i][j].value == 1 && (piece[i][j].y == WIDTH-1 || board[piece[i][j].x][piece[i][j].y+1] == 2))
+                return 1; //Right side collision
+        }
+    }
+
+    for(i=0; i<2; i++) {
+        for(j=0; j<4; j++) {
+            if(piece[i][j].value == 1 && (piece[i][j].y == 0 || board[piece[i][j].x][piece[i][j].y-1] == 2))
+                return -1; //Left side collision
+        }
+    }
+
+    return 2; //No collision
 }
