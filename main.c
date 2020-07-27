@@ -30,6 +30,8 @@ int check_spin_collision();
 int check_row_fill();
 void clear_row(int row);
 void level_up();
+int game_over();
+void pause();
 
 int main()
 {
@@ -50,8 +52,17 @@ int main()
             deploy_block();
         }
         time_stream();
+        if(game_over())
+            break;
         level_up();
     }
+
+    printf("Game over!\nLevel: %d\nScore: %d\nPress [E] to exit.", level, score);
+    while(1) {
+        if(tolower(getch()) == 'e')
+            break;
+    }
+
 }
 
 void draw_screen() {
@@ -266,6 +277,8 @@ void key_listener() {
             break;
 
         case 'p':
+            pause();
+            break;
 
         default:
             break;
@@ -384,4 +397,27 @@ void level_up() {
         speed_aux -= 15;
     }
 
+}
+
+int game_over() {
+
+    int j;
+
+    for(j=0; j<WIDTH-1; j++)
+        if(board[0][j] == 2)
+            return 1;
+
+    return 0;
+
+}
+
+void pause() {
+
+    char ch;
+
+    while(1) {
+        ch = getch();
+        if(ch == 'p')
+            break;
+    }
 }
