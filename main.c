@@ -15,6 +15,7 @@ Block piece[2][4];
 
 int speed = 200;
 int score = 0;
+int level = 1;
 int board[HEIGHT][WIDTH];
 
 void draw_screen();
@@ -26,13 +27,27 @@ int check_collision();
 void build_ground();
 void spin(int dir);
 int check_spin_collision();
+int check_row_fill();
+void clear_row(int row);
 
 int main()
 {
+    int row;
+
     deploy_block();
 
     while(1) {
         draw_screen();
+        key_listener();
+        if(check_collision() == 0) {
+            build_ground();
+            deploy_block();
+        }
+        row = check_row_fill();
+        if(row != -1) {
+            clear_row(row);
+            deploy_block();
+        }
         time_stream();
     }
 }
@@ -42,6 +57,8 @@ void draw_screen() {
     int i, j;
 
     set_values();
+
+    printf("Score: %d\nLevel: %d\n\n", score, level);
 
     printf("%c", 218);
     for(i=0; i < WIDTH*2 + 1; i++)
@@ -321,4 +338,38 @@ int check_spin_collision() {
     else
         return 0;
 
+}
+
+int check_row_fill() {
+
+    int i, j, aux;
+
+    for(i=0; i < HEIGHT; i++) {
+        aux = 0;
+        for(j=0; j < WIDTH; j++) {
+            if(board[i][j] == 2)
+                aux++;
+        }
+        if(aux == WIDTH)
+            return i;
+    }
+
+    return -1;
+}
+
+void clear_row(int row) {
+
+    int i, j, tmp;
+
+    for(i=row; i>=0; i--) {
+        for(j=WIDTH-1; j>=0; j--) {
+            if(i>0) {
+                tmp = board[i-1][j];
+                board[i-1][j] = board[i][j];
+                board[i][j] = tmp;
+            } else
+                board[i][j] = 0;
+        }
+    }
+    score += 10;
 }
