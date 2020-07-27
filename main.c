@@ -13,7 +13,7 @@ int position = 0; //Current position
 int x_pos, y_pos; //Place in the board
 Block piece[2][4];
 
-int speed = 200;
+int speed, speed_aux = 200;
 int score = 0;
 int level = 1;
 int board[HEIGHT][WIDTH];
@@ -29,6 +29,7 @@ void spin(int dir);
 int check_spin_collision();
 int check_row_fill();
 void clear_row(int row);
+void level_up();
 
 int main()
 {
@@ -49,6 +50,7 @@ int main()
             deploy_block();
         }
         time_stream();
+        level_up();
     }
 }
 
@@ -112,6 +114,7 @@ void deploy_block() {
 
     srand(time(NULL));
     type = rand() % 7;
+    speed = speed_aux;
 
     x_pos = 0;
     y_pos = rand() % (WIDTH-4);
@@ -372,4 +375,13 @@ void clear_row(int row) {
         }
     }
     score += 10;
+}
+
+void level_up() {
+
+    if(score / (50 * level) == 1) {
+        level++;
+        speed_aux -= 15;
+    }
+
 }
